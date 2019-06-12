@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (DoraemonKit.isShow()) {
                     DoraemonKit.hide();
                 } else {
-                    DoraemonKit.show();
+                    DoraemonKit.show(this);
                 }
                 break;
             case R.id.btn_create_database:

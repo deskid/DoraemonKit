@@ -62,7 +62,7 @@ public class DoraemonKit {
 
     private static WeakReference<Activity> sCurrentResumedActivity;
 
-    private static boolean sShowFloatingIcon = true;
+    private static boolean sShowFloatingIcon = false;
 
     private static boolean sEnableUpload = true;
 
@@ -109,11 +109,7 @@ public class DoraemonKit {
             @Override
             public void onActivityResumed(Activity activity) {
                 if (PermissionUtil.canDrawOverlays(activity)) {
-                    if (sShowFloatingIcon) {
-                        showFloatIcon(activity);
-                    }
-                } else {
-                    requestPermission(activity);
+                    showFloatIcon(activity);
                 }
                 for (ActivityLifecycleListener listener : sListeners) {
                     listener.onActivityResumed(activity);
@@ -263,11 +259,13 @@ public class DoraemonKit {
         sListeners.remove(listener);
     }
 
-    public static void show() {
-        if (!isShow()) {
-            showFloatIcon(null);
+    public static void show(Context context) {
+        if (PermissionUtil.canDrawOverlays(context)) {
+            showFloatIcon(context);
+            sShowFloatingIcon = true;
+        } else {
+            requestPermission(context);
         }
-        sShowFloatingIcon = true;
     }
 
     public static void hide() {
